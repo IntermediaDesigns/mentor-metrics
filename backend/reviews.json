@@ -1,0 +1,412 @@
+{
+  "reviews": [
+    {
+      "professor": "Dr. Marie Curie",
+      "review": "Inspiring teacher with a passion for radioactivity. Lab work is extensive but rewarding.",
+      "subject": "Physics",
+      "stars": 5
+    },
+    {
+      "professor": "Prof. Jane Austen",
+      "review": "Engaging discussions on literature. Her analysis of character development is particularly insightful.",
+      "subject": "English Literature",
+      "stars": 4
+    },
+    {
+      "professor": "Dr. Pythagoras",
+      "review": "Excellent at explaining complex mathematical concepts. Heavy focus on proofs.",
+      "subject": "Mathematics",
+      "stars": 4
+    },
+    {
+      "professor": "Prof. Leonardo da Vinci",
+      "review": "Multidisciplinary genius. Combines art and science in innovative ways.",
+      "subject": "Fine Arts",
+      "stars": 5
+    },
+    {
+      "professor": "Dr. Charles Darwin",
+      "review": "Fascinating lectures on evolutionary biology. Field trips are a highlight.",
+      "subject": "Biology",
+      "stars": 5
+    },
+    {
+      "professor": "Prof. Noam Chomsky",
+      "review": "Challenging but thought-provoking classes on linguistics and cognitive science.",
+      "subject": "Linguistics",
+      "stars": 4
+    },
+    {
+      "professor": "Dr. Stephen Hawking",
+      "review": "Mind-bending lectures on theoretical physics. Difficult but rewarding for dedicated students.",
+      "subject": "Astrophysics",
+      "stars": 5
+    },
+    {
+      "professor": "Prof. Frida Kahlo",
+      "review": "Passionate about art history and technique. Encourages personal expression in assignments.",
+      "subject": "Art History",
+      "stars": 5
+    },
+    {
+      "professor": "Dr. Sigmund Freud",
+      "review": "Controversial theories, but engaging discussions on psychoanalysis. Heavy reading load.",
+      "subject": "Psychology",
+      "stars": 3
+    },
+    {
+      "professor": "Prof. Ada Lovelace",
+      "review": "Excellent at explaining programming concepts. Assignments are challenging but practical.",
+      "subject": "Computer Science",
+      "stars": 5
+    },
+    {
+      "professor": "Dr. Neil deGrasse Tyson",
+      "review": "Charismatic lecturer who makes astronomy accessible and exciting.",
+      "subject": "Astronomy",
+      "stars": 5
+    },
+    {
+      "professor": "Prof. William Shakespeare",
+      "review": "Brings classic literature to life. Heavy emphasis on performance and interpretation.",
+      "subject": "English Literature",
+      "stars": 4
+    },
+    {
+      "professor": "Dr. Rachel Carson",
+      "review": "Passionate about environmental science. Field work is a key component of her courses.",
+      "subject": "Environmental Science",
+      "stars": 5
+    },
+    {
+      "professor": "Prof. John Nash",
+      "review": "Brilliant mind, but lectures can be hard to follow. Office hours are very helpful.",
+      "subject": "Economics",
+      "stars": 4
+    },
+    {
+      "professor": "Dr. Temple Grandin",
+      "review": "Unique perspective on animal behavior. Practical, hands-on approach to learning.",
+      "subject": "Animal Science",
+      "stars": 5
+    },
+    {
+      "professor": "Prof. Martha Graham",
+      "review": "Demanding but inspiring dance instructor. Emphasizes both technique and expression.",
+      "subject": "Dance",
+      "stars": 4
+    },
+    {
+      "professor": "Dr. Rosalind Franklin",
+      "review": "Rigorous approach to biochemistry. Lab work is challenging but highly educational.",
+      "subject": "Biochemistry",
+      "stars": 5
+    },
+    {
+      "professor": "Prof. Aristotle",
+      "review": "Foundational course in philosophy. Socratic method can be intimidating for some students.",
+      "subject": "Philosophy",
+      "stars": 4
+    },
+    {
+      "professor": "Dr. Jane Goodall",
+      "review": "Fascinating insights into primatology. Strong emphasis on ethical research practices.",
+      "subject": "Anthropology",
+      "stars": 5
+    },
+    {
+      "professor": "Dr. Richard Feynman",
+      "review": "Engaging lecturer with a knack for simplifying complex physics concepts. His diagrams are legendary.",
+      "subject": "Physics",
+      "stars": 5
+    },
+    {
+      "professor": "Prof. Virginia Woolf",
+      "review": "Insightful analysis of modernist literature. Encourages creative writing alongside critical analysis.",
+      "subject": "English Literature",
+      "stars": 4
+    },
+    {
+      "professor": "Dr. Erwin Schrödinger",
+      "review": "Quantum mechanics becomes (slightly) less mysterious in his classes. Prepare for mind-bending concepts.",
+      "subject": "Physics",
+      "stars": 4
+    },
+    {
+      "professor": "Prof. Claude Monet",
+      "review": "Impressionism comes to life in his studio classes. Great emphasis on light and color theory.",
+      "subject": "Fine Arts",
+      "stars": 5
+    },
+    {
+      "professor": "Dr. Barbara McClintock",
+      "review": "Pioneering geneticist with a passion for teaching. Her corn genetics experiments are fascinating.",
+      "subject": "Biology",
+      "stars": 5
+    },
+    {
+      "professor": "Prof. Bertrand Russell",
+      "review": "Logical reasoning at its finest. Challenging but rewarding classes in mathematical logic.",
+      "subject": "Philosophy",
+      "stars": 4
+    },
+    {
+      "professor": "Dr. Nikola Tesla",
+      "review": "Electrifying lectures on electrical engineering. His practical demonstrations are unforgettable.",
+      "subject": "Electrical Engineering",
+      "stars": 5
+    },
+    {
+      "professor": "Prof. Maya Angelou",
+      "review": "Powerful discussions on African American literature. Her poetry workshops are transformative.",
+      "subject": "English Literature",
+      "stars": 5
+    },
+    {
+      "professor": "Dr. Carl Sagan",
+      "review": "Makes you fall in love with the cosmos. His passion for science communication is infectious.",
+      "subject": "Astronomy",
+      "stars": 5
+    },
+    {
+      "professor": "Prof. Simone de Beauvoir",
+      "review": "Thought-provoking seminars on existentialism and feminism. Heavy reading load but worth it.",
+      "subject": "Philosophy",
+      "stars": 4
+    },
+    {
+      "professor": "Dr. James Watson",
+      "review": "DNA structure becomes clear in his biochemistry classes. Controversial personality, though.",
+      "subject": "Biochemistry",
+      "stars": 3
+    },
+    {
+      "professor": "Prof. Pablo Picasso",
+      "review": "Pushes students to think outside the box. His cubism workshop is mind-bending.",
+      "subject": "Fine Arts",
+      "stars": 5
+    },
+    {
+      "professor": "Dr. Jane Jacobs",
+      "review": "Urban planning comes alive in her classes. Field trips around the city are eye-opening.",
+      "subject": "Urban Studies",
+      "stars": 5
+    },
+    {
+      "professor": "Prof. Nicolaus Copernicus",
+      "review": "Revolutionary ideas in astronomy. Challenges you to question established beliefs.",
+      "subject": "Astronomy",
+      "stars": 4
+    },
+    {
+      "professor": "Dr. B.F. Skinner",
+      "review": "Behaviorism explained clearly. His rat experiments are controversial but educational.",
+      "subject": "Psychology",
+      "stars": 3
+    },
+    {
+      "professor": "Prof. Emily Dickinson",
+      "review": "Poetry analysis at its finest. Encourages students to find their unique voice.",
+      "subject": "English Literature",
+      "stars": 5
+    },
+    {
+      "professor": "Dr. Linus Pauling",
+      "review": "Brilliant chemist with interdisciplinary approach. His molecular models are helpful.",
+      "subject": "Chemistry",
+      "stars": 5
+    },
+    {
+      "professor": "Prof. Margaret Mead",
+      "review": "Brings anthropology to life with her field experiences. Encourages cultural sensitivity.",
+      "subject": "Anthropology",
+      "stars": 4
+    },
+    {
+      "professor": "Dr. Jonas Salk",
+      "review": "Inspirational lectures on vaccine development. Lab work is intensive but rewarding.",
+      "subject": "Microbiology",
+      "stars": 5
+    },
+    {
+      "professor": "Prof. Ludwig van Beethoven",
+      "review": "Passionate about music theory. Hearing impairment doesn't hinder his brilliant instruction.",
+      "subject": "Music",
+      "stars": 5
+    },
+    {
+      "professor": "Dr. Grace Hopper",
+      "review": "Pioneering computer scientist. Her compiler design course is challenging but enlightening.",
+      "subject": "Computer Science",
+      "stars": 5
+    },
+    {
+      "professor": "Prof. Immanuel Kant",
+      "review": "Deep discussions on ethics and metaphysics. Be prepared for complex philosophical arguments.",
+      "subject": "Philosophy",
+      "stars": 4
+    },
+    {
+      "professor": "Dr. Francis Crick",
+      "review": "Molecular biology explained with clarity. His enthusiasm for DNA structure is contagious.",
+      "subject": "Biology",
+      "stars": 5
+    },
+    {
+      "professor": "Prof. Georgia O'Keeffe",
+      "review": "Encourages unique perspectives in painting. Her desert landscapes project is challenging.",
+      "subject": "Fine Arts",
+      "stars": 4
+    },
+    {
+      "professor": "Dr. Niels Bohr",
+      "review": "Quantum physics becomes (slightly) less confusing. Patient with questions on atomic models.",
+      "subject": "Physics",
+      "stars": 4
+    },
+    {
+      "professor": "Prof. Sylvia Plath",
+      "review": "Intense poetry workshops. Encourages emotional depth in writing.",
+      "subject": "Creative Writing",
+      "stars": 5
+    },
+    {
+      "professor": "Dr. Enrico Fermi",
+      "review": "Nuclear physics explained clearly. His problem-solving approach is very effective.",
+      "subject": "Physics",
+      "stars": 5
+    },
+    {
+      "professor": "Prof. Jean Piaget",
+      "review": "Developmental psychology theories come to life. Lots of observational studies.",
+      "subject": "Psychology",
+      "stars": 4
+    },
+    {
+      "professor": "Dr. Sally Ride",
+      "review": "Makes physics and space science accessible and exciting. Great role model for women in STEM.",
+      "subject": "Physics",
+      "stars": 5
+    },
+    {
+      "professor": "Prof. Claude Lévi-Strauss",
+      "review": "Structural anthropology explained in depth. Heavy on theory but very insightful.",
+      "subject": "Anthropology",
+      "stars": 4
+    },
+    {
+      "professor": "Dr. Chien-Shiung Wu",
+      "review": "Brilliant experimental physicist. Her beta decay experiments are fascinating.",
+      "subject": "Physics",
+      "stars": 5
+    },
+    {
+      "professor": "Prof. Umberto Eco",
+      "review": "Semiotics and medieval literature blend seamlessly. Expect a heavy reading load.",
+      "subject": "Semiotics",
+      "stars": 4
+    },
+    {
+      "professor": "Dr. Lynn Margulis",
+      "review": "Evolutionary biology with a focus on symbiosis. Challenges conventional thinking.",
+      "subject": "Biology",
+      "stars": 5
+    },
+    {
+      "professor": "Prof. Frank Lloyd Wright",
+      "review": "Innovative approach to architectural design. His organic architecture project is challenging.",
+      "subject": "Architecture",
+      "stars": 5
+    },
+    {
+      "professor": "Dr. Dorothy Hodgkin",
+      "review": "Crystallography becomes clear in her biochemistry classes. Patience with lab techniques.",
+      "subject": "Biochemistry",
+      "stars": 5
+    },
+    {
+      "professor": "Prof. Noam Chomsky",
+      "review": "Linguistic theories explained in depth. Be prepared for political discussions too.",
+      "subject": "Linguistics",
+      "stars": 4
+    },
+    {
+      "professor": "Dr. Tim Berners-Lee",
+      "review": "Web technologies taught by the inventor himself. Practical and forward-thinking.",
+      "subject": "Computer Science",
+      "stars": 5
+    },
+    {
+      "professor": "Prof. Judith Butler",
+      "review": "Challenging but enlightening gender studies classes. Expect complex theoretical readings.",
+      "subject": "Gender Studies",
+      "stars": 4
+    },
+    {
+      "professor": "Dr. Edward O. Wilson",
+      "review": "Fascinating lectures on biodiversity and conservation. Field trips are a highlight.",
+      "subject": "Ecology",
+      "stars": 5
+    },
+    {
+      "professor": "Prof. Margaret Atwood",
+      "review": "Insightful creative writing workshops. Her dystopian fiction unit is particularly engaging.",
+      "subject": "Creative Writing",
+      "stars": 5
+    },
+    {
+      "professor": "Dr. Michio Kaku",
+      "review": "Makes theoretical physics accessible and exciting. Great at explaining string theory.",
+      "subject": "Physics",
+      "stars": 5
+    },
+    {
+      "professor": "Prof. Yuval Noah Harari",
+      "review": "Thought-provoking lectures on human history and future. Encourages critical thinking.",
+      "subject": "History",
+      "stars": 5
+    },
+    {
+      "professor": "Dr. Jennifer Doudna",
+      "review": "Cutting-edge genetics and CRISPR technology explained clearly. Exciting lab work.",
+      "subject": "Genetics",
+      "stars": 5
+    },
+    {
+      "professor": "Prof. Slavoj Žižek",
+      "review": "Controversial and energetic philosophy lectures. Be prepared for unconventional ideas.",
+      "subject": "Philosophy",
+      "stars": 4
+    },
+    {
+      "professor": "Dr. Jocelyn Bell Burnell",
+      "review": "Inspiring astrophysics classes. Her pulsar discovery story is captivating.",
+      "subject": "Astrophysics",
+      "stars": 5
+    },
+    {
+      "professor": "Prof. Brené Brown",
+      "review": "Engaging lectures on vulnerability and leadership. Lots of self-reflection exercises.",
+      "subject": "Social Work",
+      "stars": 5
+    },
+    {
+      "professor": "Dr. Peter Higgs",
+      "review": "Particle physics becomes clearer. His explanation of the Higgs boson is unparalleled.",
+      "subject": "Physics",
+      "stars": 4
+    },
+    {
+      "professor": "Prof. Chimamanda Ngozi Adichie",
+      "review": "Powerful discussions on postcolonial literature. Encourages diverse perspectives in writing.",
+      "subject": "English Literature",
+      "stars": 5
+    },
+    {
+      "professor": "Dr. Brian Greene",
+      "review": "Makes string theory accessible and exciting. Great at simplifying complex concepts.",
+      "subject": "Physics",
+      "stars": 5
+    }
+  ]
+}
