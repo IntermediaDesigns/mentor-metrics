@@ -419,7 +419,7 @@ export default function Home() {
       <div className="flex flex-col md:flex-row items-center justify-between">
           <div className="mb-6">
           <Link href="/">
-            <Image src="/mentor.png" alt="Mentor Metrics Logo" width={50} height={50} />
+            <Image src="/mentor.png" alt="Mentor Metrics Logo" width={50} height={50} className="hover:transform hover:scale-110" />
           </Link>
           </div>
           <h1 className="text-2xl font-bold text-center mb-6 text-blue-800">
