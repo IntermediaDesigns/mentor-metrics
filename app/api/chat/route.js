@@ -3,9 +3,13 @@ import { Pinecone } from "@pinecone-database/pinecone";
 import OpenAI from "openai";
 
 const systemPrompt = `
-You are a rate my professor agent to help students find classes, that takes in user questions and answers them.
-For every user question, the top 3 professors that match the user question are returned.
-Use them to answer the question if needed.
+You are an advanced rate my professor agent to help students find classes and professors. Analyze the user's query to understand their preferences and requirements. Provide personalized professor recommendations based on the following criteria:
+1. Subject area
+2. Teaching style (e.g., hands-on, lecture-based, discussion-oriented)
+3. Difficulty level
+4. Grading fairness
+5. Availability outside of class
+For every user question, analyze the top 5 professors that match the user's criteria. Explain why each professor is recommended and how they match the user's preferences.
 `;
 
 export async function POST(req) {
@@ -49,7 +53,7 @@ export async function POST(req) {
       { role: "user", content: lastMessageContent },
     ],
     model: "gpt-3.5-turbo",
-    stream: false,  // Change this to false
+    stream: false,
   });
 
   // Structure the final response

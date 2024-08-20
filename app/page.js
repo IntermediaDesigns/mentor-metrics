@@ -20,24 +20,102 @@ const formatAIResponse = (content) => {
   );
 };
 
+const AdvancedSearchForm = ({ onSearch }) => {
+  const [criteria, setCriteria] = useState({
+    subject: '',
+    teachingStyle: '',
+    difficulty: '',
+    gradingFairness: '',
+    availability: ''
+  });
+
+  const handleChange = (e) => {
+    setCriteria({ ...criteria, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const query = `Find professors for ${criteria.subject} with ${criteria.teachingStyle} teaching style, ${criteria.difficulty} difficulty, ${criteria.gradingFairness} grading, and ${criteria.availability} availability outside class.`;
+    onSearch(query);
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="mb-6 p-4 bg-gray-50 rounded-lg">
+      <div className="grid grid-cols-2 gap-4">
+        <input
+          type="text"
+          name="subject"
+          placeholder="Subject"
+          onChange={handleChange}
+          className="p-2 border rounded"
+        />
+        <select
+          name="teachingStyle"
+          onChange={handleChange}
+          className="p-2 border rounded"
+        >
+          <option value="">Teaching Style</option>
+          <option value="hands-on">Hands-on</option>
+          <option value="lecture-based">Lecture-based</option>
+          <option value="discussion-oriented">Discussion-oriented</option>
+        </select>
+        <select
+          name="difficulty"
+          onChange={handleChange}
+          className="p-2 border rounded"
+        >
+          <option value="">Difficulty Level</option>
+          <option value="easy">Easy</option>
+          <option value="moderate">Moderate</option>
+          <option value="challenging">Challenging</option>
+        </select>
+        <select
+          name="gradingFairness"
+          onChange={handleChange}
+          className="p-2 border rounded"
+        >
+          <option value="">Grading Fairness</option>
+          <option value="very fair">Very Fair</option>
+          <option value="fair">Fair</option>
+          <option value="strict">Strict</option>
+        </select>
+        <select
+          name="availability"
+          onChange={handleChange}
+          className="p-2 border rounded"
+        >
+          <option value="">Availability Outside Class</option>
+          <option value="very available">Very Available</option>
+          <option value="somewhat available">Somewhat Available</option>
+          <option value="limited">Limited</option>
+        </select>
+      </div>
+      <button type="submit" className="mt-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+        Search Professors
+      </button>
+    </form>
+  );
+};
+
 export default function Home() {
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
-      content: `Hi! I'm the Rate My Professor support assistant. How can I help you today?`,
+      content: `Hi! I'm the Mentor Metrics AI Assistant. How can I help you today? You can ask me about specific professors or use the advanced search form to find personalized recommendations.`,
     },
   ])
   const [message, setMessage] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
-  const sendMessage = async () => {
-    if (!message.trim() || isLoading) return
+  const sendMessage = async (customMessage = null) => {
+    const messageToSend = customMessage || message;
+    if (!messageToSend.trim() || isLoading) return
     
     setIsLoading(true)
     setMessage('')
     setMessages((prevMessages) => [
       ...prevMessages,
-      { role: 'user', content: message },
+      { role: 'user', content: messageToSend },
       { role: 'assistant', content: '' },
     ])
 
@@ -47,7 +125,7 @@ export default function Home() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify([...messages, { role: 'user', content: message }]),
+        body: JSON.stringify([...messages, { role: 'user', content: messageToSend }]),
       })
 
       if (!response.ok) {
@@ -78,6 +156,7 @@ export default function Home() {
     <div className="flex flex-col justify-center items-center min-h-screen bg-gray-100">
       <div className="w-full max-w-3xl bg-white rounded-lg shadow-md p-6">
         <h1 className="text-2xl font-bold text-center mb-6 text-blue-800">Mentor Metrics AI Assistant</h1>
+        <AdvancedSearchForm onSearch={sendMessage} />
         <div className="flex flex-col space-y-4 h-[600px] overflow-y-auto mb-4 p-4 bg-gray-50 rounded-lg">
           {messages.map((msg, index) => (
             <div
@@ -109,7 +188,7 @@ export default function Home() {
             disabled={isLoading}
           />
           <button
-            onClick={sendMessage}
+            onClick={() => sendMessage()}
             className={`px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
               isLoading ? 'opacity-50 cursor-not-allowed' : ''
             }`}
