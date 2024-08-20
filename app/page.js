@@ -443,7 +443,7 @@ export default function Home() {
                   }`}
                 >
                   <div
-                    className={`max-w-xs md:max-w-md lg:max-w-lg rounded-lg p-4 ${
+                    className={`max-w-xs mb-4 md:max-w-md lg:max-w-lg rounded-lg p-4 ${
                       msg.role === "assistant"
                         ? "bg-blue-100 text-blue-900"
                         : "bg-green-100 text-green-900"
