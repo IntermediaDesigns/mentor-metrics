@@ -12,9 +12,9 @@ const formatAIResponse = (content) => {
     <div>
       {content.results &&
         content.results.map((result, index) => (
-          <div key={index} className="mb-6 bg-blue-50 p-4 rounded-lg">
-            <h3 className="font-bold text-lg text-blue-800 mb-2">
-              Professor: {result.professor}
+          <div key={index} className="mb-6 bg-gray-50 p-4 rounded-lg">
+            <h3 className="font-bold text-lg text-slate-800 mb-2">
+             <span className="font-semibold text-orange-700 tracking-wider">Professor: </span> {result.professor}
             </h3>
             <p className="mb-2">
               <span className="font-semibold">Subject:</span> {result.subject}
@@ -51,7 +51,7 @@ const AdvancedSearchForm = ({ onSearch }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mb-6 p-4 bg-gray-50 rounded-lg">
+    <form onSubmit={handleSubmit} className="mb-6 p-4 bg-amber-50 border border-amber-400 rounded-lg">
       <h2 className="text-xl font-bold mb-4">Search for Professors</h2>
       <div className="grid grid-cols-2 gap-4">
         <input
@@ -59,12 +59,12 @@ const AdvancedSearchForm = ({ onSearch }) => {
           name="subject"
           placeholder="Subject"
           onChange={handleChange}
-          className="p-2 border rounded"
+          className="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-amber-500"
         />
         <select
           name="teachingStyle"
           onChange={handleChange}
-          className="p-2 border rounded"
+          className="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-amber-500"
         >
           <option value="">Teaching Style</option>
           <option value="hands-on">Hands-on</option>
@@ -74,7 +74,7 @@ const AdvancedSearchForm = ({ onSearch }) => {
         <select
           name="difficulty"
           onChange={handleChange}
-          className="p-2 border rounded"
+          className="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-amber-500"
         >
           <option value="">Difficulty Level</option>
           <option value="easy">Easy</option>
@@ -84,7 +84,7 @@ const AdvancedSearchForm = ({ onSearch }) => {
         <select
           name="gradingFairness"
           onChange={handleChange}
-          className="p-2 border rounded"
+          className="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-amber-500"
         >
           <option value="">Grading Fairness</option>
           <option value="very fair">Very Fair</option>
@@ -94,7 +94,7 @@ const AdvancedSearchForm = ({ onSearch }) => {
         <select
           name="availability"
           onChange={handleChange}
-          className="p-2 border rounded"
+          className="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-amber-500"
         >
           <option value="">Availability Outside Class</option>
           <option value="very available">Very Available</option>
@@ -104,7 +104,7 @@ const AdvancedSearchForm = ({ onSearch }) => {
       </div>
       <button
         type="submit"
-        className="mt-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        className="mt-4 p-2 bg-orange-500 text-white rounded hover:bg-orange-600"
       >
         Search Professors
       </button>
@@ -122,7 +122,7 @@ const LinkSubmissionForm = ({ onSubmit }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mb-6 p-4 bg-gray-50 rounded-lg">
+    <form onSubmit={handleSubmit} className="mb-6 p-4 bg-amber-50 border border-amber-400 rounded-lg">
       <h2 className="text-xl font-bold mb-4">Submit Professor Rating URL</h2>
       <div className="flex items-center flex-wrap">
         <input
@@ -130,12 +130,12 @@ const LinkSubmissionForm = ({ onSubmit }) => {
           value={link}
           onChange={(e) => setLink(e.target.value)}
           placeholder="Enter Rate My Professor URL"
-          className="flex-grow p-2 border rounded-l"
+          className="flex-grow p-2 border rounded-l focus:outline-none focus:ring-2 focus:ring-amber-500"
           required
         />
         <button
           type="submit"
-          className="p-2 bg-blue-500 text-white rounded-r hover:bg-blue-600"
+          className="p-2 bg-orange-500 text-white rounded-r hover:bg-orange-600"
         >
           Submit Link
         </button>
@@ -176,7 +176,7 @@ const ProfessorRatingForm = ({ onSubmit }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mb-6 p-4 bg-gray-50 rounded-lg">
+    <form onSubmit={handleSubmit} className="mb-6 p-4 bg-amber-50 border border-amber-300 rounded-lg">
       <h2 className="text-xl font-bold mb-4">Add Professor Rating</h2>
       <div className="grid grid-cols-2 gap-4">
         <input
@@ -185,7 +185,7 @@ const ProfessorRatingForm = ({ onSubmit }) => {
           value={rating.professorName}
           onChange={handleChange}
           placeholder="Professor Name"
-          className="p-2 border rounded"
+          className="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-amber-500"
           required
         />
         <input
@@ -194,14 +194,14 @@ const ProfessorRatingForm = ({ onSubmit }) => {
           value={rating.subject}
           onChange={handleChange}
           placeholder="Subject"
-          className="p-2 border rounded"
+          className="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-amber-500"
           required
         />
         <select
           name="teachingStyle"
           value={rating.teachingStyle}
           onChange={handleChange}
-          className="p-2 border rounded"
+          className="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-amber-500"
           required
         >
           <option value="">Teaching Style</option>
@@ -213,7 +213,7 @@ const ProfessorRatingForm = ({ onSubmit }) => {
           name="difficulty"
           value={rating.difficulty}
           onChange={handleChange}
-          className="p-2 border rounded"
+          className="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-amber-500"
           required
         >
           <option value="">Difficulty Level</option>
@@ -225,7 +225,7 @@ const ProfessorRatingForm = ({ onSubmit }) => {
           name="gradingFairness"
           value={rating.gradingFairness}
           onChange={handleChange}
-          className="p-2 border rounded"
+          className="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-amber-500"
           required
         >
           <option value="">Grading Fairness</option>
@@ -237,7 +237,7 @@ const ProfessorRatingForm = ({ onSubmit }) => {
           name="availability"
           value={rating.availability}
           onChange={handleChange}
-          className="p-2 border rounded"
+          className="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-amber-500"
           required
         >
           <option value="">Availability Outside Class</option>
@@ -253,7 +253,7 @@ const ProfessorRatingForm = ({ onSubmit }) => {
           placeholder="Overall Rating (1-5)"
           min="1"
           max="5"
-          className="p-2 border rounded"
+          className="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-amber-500"
           required
         />
       </div>
@@ -262,12 +262,12 @@ const ProfessorRatingForm = ({ onSubmit }) => {
         value={rating.review}
         onChange={handleChange}
         placeholder="Write your review here..."
-        className="mt-4 p-2 border rounded w-full h-24"
+        className="mt-4 p-2 border rounded w-full h-24 focus:outline-none focus:ring-2 focus:ring-amber-500"
         required
       ></textarea>
       <button
         type="submit"
-        className="mt-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        className="mt-4 p-2 bg-orange-500 text-white rounded hover:bg-orange-600"
       >
         Submit Rating
       </button>
@@ -414,15 +414,21 @@ export default function Home() {
   };
 
   return (
-        <div className="flex flex-col justify-center items-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-7xl bg-white rounded-lg shadow-md p-6">
-      <div className="flex flex-col md:flex-row items-center justify-between">
+    <div className="flex flex-col justify-center items-center min-h-screen bg-orange-bg bg-cover bg-no-repeat">
+      <div className="mainCard w-full max-w-7xl bg-white rounded-lg shadow-md p-6">
+        <div className="flex flex-col md:flex-row items-center justify-between">
           <div className="mb-6">
-          <Link href="/">
-            <Image src="/mentor.png" alt="Mentor Metrics Logo" width={50} height={50} className="hover:transform hover:scale-110" />
-          </Link>
+            <Link href="/">
+              <Image
+                src="/mentor.png"
+                alt="Mentor Metrics Logo"
+                width={50}
+                height={50}
+                className="hover:transform hover:scale-110"
+              />
+            </Link>
           </div>
-          <h1 className="text-2xl font-bold text-center mb-6 text-blue-800">
+          <h1 className="text-2xl font-bold text-center mb-6 text-slate-950">
             Mentor Metrics AI Assistant
           </h1>
           <button
@@ -440,7 +446,7 @@ export default function Home() {
             <ProfessorRatingForm onSubmit={submitRating} />
           </div>
           <div className="flex flex-col space-y-4 w-full md:w-1/2 lg:w-2/3">
-            <div className="h-[635px] overflow-y-auto mb-4 p-4 bg-gray-50 rounded-lg">
+            <div className="h-[635px] overflow-y-auto mb-4 p-4 bg-amber-50 rounded-lg border border-amber-400">
               {messages.map((msg, index) => (
                 <div
                   key={index}
@@ -451,8 +457,8 @@ export default function Home() {
                   <div
                     className={`max-w-xs mb-4 md:max-w-md lg:max-w-lg rounded-lg p-4 ${
                       msg.role === "assistant"
-                        ? "bg-blue-100 text-blue-900"
-                        : "bg-green-100 text-green-900"
+                        ? "bg-amber-500 text-slate-800"
+                        : "bg-orange-300 text-slate-700"
                     }`}
                   >
                     {msg.role === "assistant"
@@ -468,13 +474,13 @@ export default function Home() {
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 onKeyPress={(e) => e.key === "Enter" && sendMessage()}
-                className="flex-grow px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="flex-grow px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
                 placeholder="Type your message..."
                 disabled={isLoading}
               />
               <button
                 onClick={() => sendMessage()}
-                className={`px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                className={`px-6 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 ${
                   isLoading ? "opacity-50 cursor-not-allowed" : ""
                 }`}
                 disabled={isLoading}
