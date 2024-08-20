@@ -120,7 +120,7 @@ const LinkSubmissionForm = ({ onSubmit }) => {
 
   return (
     <form onSubmit={handleSubmit} className="mb-6 p-4 bg-gray-50 rounded-lg">
-      <div className="flex items-center">
+      <div className="flex items-center flex-wrap">
         <input
           type="url"
           value={link}
