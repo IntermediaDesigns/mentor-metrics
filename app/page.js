@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Image from "next/image";
 
 const formatAIResponse = (content) => {
   if (!content || typeof content !== "object") {
@@ -415,7 +416,9 @@ export default function Home() {
         <div className="flex flex-col justify-center items-center min-h-screen bg-gray-100">
       <div className="w-full max-w-7xl bg-white rounded-lg shadow-md p-6">
       <div className="flex flex-col md:flex-row items-center justify-between">
-          <div className="mb-6">Logo Image</div>
+          <div className="mb-6">
+            <Image src="/mentor.png" alt="Mentor Metrics Logo" width={50} height={50} />
+          </div>
           <h1 className="text-2xl font-bold text-center mb-6 text-blue-800">
             Mentor Metrics AI Assistant
           </h1>
