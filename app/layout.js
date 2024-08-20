@@ -1,9 +1,10 @@
 import "./globals.css";
-
+import { Analytics } from "@vercel/analytics/react";
 
 export const metadata = {
   title: "Mentor Metrics",
-  description: "A RAG-based application of Rate My Professor AI Assistant with Next.js, Python, OpenAI, and Pinecone.",
+  description:
+    "A RAG-based application of Rate My Professor AI Assistant with Next.js, Python, OpenAI, and Pinecone.",
   type: "website",
   siteName: "Mentor Metrics",
 };
@@ -20,7 +21,8 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         {children}
-        </body>
+        <Analytics />
+      </body>
     </html>
   );
 }
