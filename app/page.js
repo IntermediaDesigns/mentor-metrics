@@ -211,32 +211,35 @@ export default function Home() {
     }
   };
 
-  return (
+    return (
     <div className="flex flex-col justify-center items-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-3xl bg-white rounded-lg shadow-md p-6">
+      <div className="w-full max-w-screen-xl bg-white rounded-lg shadow-md p-6">
         <h1 className="text-2xl font-bold text-center mb-6 text-blue-800">Mentor Metrics AI Assistant</h1>
-        <LinkSubmissionForm onSubmit={submitLink} />
-        <AdvancedSearchForm onSearch={sendMessage} />
-        <AdvancedSearchForm onSearch={sendMessage} />
-        <div className="flex flex-col space-y-4 h-[600px] overflow-y-auto mb-4 p-4 bg-gray-50 rounded-lg">
-          {messages.map((msg, index) => (
-            <div
-              key={index}
-              className={`flex ${
-                msg.role === 'assistant' ? 'justify-start' : 'justify-end'
-              }`}
-            >
+        <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
+          <div className="flex flex-col space-y-4 w-full md:w-1/2 lg:w-1/3">
+            <LinkSubmissionForm onSubmit={submitLink} />
+            <AdvancedSearchForm onSearch={sendMessage} />
+          </div>
+          <div className="flex flex-col space-y-4 w-full md:w-1/2 lg:w-2/3 h-[600px] overflow-y-auto mb-4 p-4 bg-gray-50 rounded-lg">
+            {messages.map((msg, index) => (
               <div
-                className={`max-w-xs md:max-w-md lg:max-w-lg rounded-lg p-4 ${
-                  msg.role === 'assistant'
-                    ? 'bg-blue-100 text-blue-900'
-                    : 'bg-green-100 text-green-900'
+                key={index}
+                className={`flex ${
+                  msg.role === 'assistant' ? 'justify-start' : 'justify-end'
                 }`}
               >
-                {msg.role === 'assistant' ? formatAIResponse(msg.content) : msg.content}
+                <div
+                  className={`max-w-xs md:max-w-md lg:max-w-lg rounded-lg p-4 ${
+                    msg.role === 'assistant'
+                      ? 'bg-blue-100 text-blue-900'
+                      : 'bg-green-100 text-green-900'
+                  }`}
+                >
+                  {msg.role === 'assistant' ? formatAIResponse(msg.content) : msg.content}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
         <div className="flex space-x-4">
           <input
@@ -260,5 +263,5 @@ export default function Home() {
         </div>
       </div>
     </div>
-  )
+  );
 }
