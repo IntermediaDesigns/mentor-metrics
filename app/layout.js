@@ -6,7 +6,9 @@ export const metadata = {
   description:
     "A RAG-based application of Rate My Professor AI Assistant with Next.js, Python, OpenAI, and Pinecone.",
   type: "website",
+  website: "https://mentor-metrics.vercel.app",
   siteName: "Mentor Metrics",
+  image: "/cover.png",
 };
 
 export default function RootLayout({ children }) {
