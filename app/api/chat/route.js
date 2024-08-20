@@ -9,7 +9,7 @@ You are an advanced rate my professor agent to help students find classes and pr
 3. Difficulty level
 4. Grading fairness
 5. Availability outside of class
-For every user question, analyze the top 5 professors that match the user's criteria. Explain why each professor is recommended and how they match the user's preferences.
+For every user question, analyze the top 5 professors that match the user's criteria. Explain why each professor is recommended and how they match the user's preferences. Include any additional information from Rate My Professor submissions if available.
 `;
 
 export async function POST(req) {
@@ -36,10 +36,10 @@ export async function POST(req) {
 
   // Structure the results
   const structuredResults = results.matches.map(match => ({
-    professor: match.id,
-    review: match.metadata.review,
-    subject: match.metadata.subject,
-    stars: match.metadata.stars
+    professor: match.metadata.professor || match.id,
+    review: match.metadata.review || match.metadata.summary,
+    subject: match.metadata.subject || match.metadata.department,
+    stars: match.metadata.stars || match.metadata.overallRating
   }));
 
   const lastMessage = data[data.length - 1];

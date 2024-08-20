@@ -97,6 +97,34 @@ const AdvancedSearchForm = ({ onSearch }) => {
   );
 };
 
+const LinkSubmissionForm = ({ onSubmit }) => {
+  const [link, setLink] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit(link);
+    setLink('');
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="mb-6 p-4 bg-gray-50 rounded-lg">
+      <div className="flex items-center">
+        <input
+          type="url"
+          value={link}
+          onChange={(e) => setLink(e.target.value)}
+          placeholder="Enter Rate My Professor URL"
+          className="flex-grow p-2 border rounded-l"
+          required
+        />
+        <button type="submit" className="p-2 bg-blue-500 text-white rounded-r hover:bg-blue-600">
+          Submit Link
+        </button>
+      </div>
+    </form>
+  );
+};
+
 export default function Home() {
   const [messages, setMessages] = useState([
     {
@@ -152,10 +180,43 @@ export default function Home() {
     }
   }
 
+  const submitLink = async (link) => {
+    setIsLoading(true);
+    try {
+      const response = await fetch('/api/submit-link', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ url: link }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { role: 'assistant', content: data.message },
+      ]);
+    } catch (error) {
+      console.error('Error submitting link:', error);
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { role: 'assistant', content: 'Sorry, there was an error processing the link.' },
+      ]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="flex flex-col justify-center items-center min-h-screen bg-gray-100">
       <div className="w-full max-w-3xl bg-white rounded-lg shadow-md p-6">
         <h1 className="text-2xl font-bold text-center mb-6 text-blue-800">Mentor Metrics AI Assistant</h1>
+        <LinkSubmissionForm onSubmit={submitLink} />
+        <AdvancedSearchForm onSearch={sendMessage} />
         <AdvancedSearchForm onSearch={sendMessage} />
         <div className="flex flex-col space-y-4 h-[600px] overflow-y-auto mb-4 p-4 bg-gray-50 rounded-lg">
           {messages.map((msg, index) => (
