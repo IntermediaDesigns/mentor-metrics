@@ -19,6 +19,7 @@ export default function RootLayout({ children }) {
         <meta name="description" content={metadata.description} />
         <meta property="og:type" content={metadata.type} />
         <meta property="og:site_name" content={metadata.siteName} />
+        <meta property="og:image" content={metadata.image} />
         <link rel="icon" href="/favicon.ico" />
       </head>
       <body>
