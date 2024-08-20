@@ -1,32 +1,41 @@
-'use client'
-import { useState } from 'react'
+"use client";
+import { useState } from "react";
 
 const formatAIResponse = (content) => {
-  if (!content || typeof content !== 'object') {
+  if (!content || typeof content !== "object") {
     return <p>{content}</p>;
   }
 
   return (
     <div>
-      {content.results && content.results.map((result, index) => (
-        <div key={index} className="mb-6 bg-blue-50 p-4 rounded-lg">
-          <h3 className="font-bold text-lg text-blue-800 mb-2">Professor: {result.professor}</h3>
-          <p className="mb-2"><span className="font-semibold">Subject:</span> {result.subject}</p>
-          <p className="mb-2"><span className="font-semibold">Review:</span> {result.review}</p>
-          <p><span className="font-semibold">Stars:</span> {result.stars}</p>
-        </div>
-      ))}
+      {content.results &&
+        content.results.map((result, index) => (
+          <div key={index} className="mb-6 bg-blue-50 p-4 rounded-lg">
+            <h3 className="font-bold text-lg text-blue-800 mb-2">
+              Professor: {result.professor}
+            </h3>
+            <p className="mb-2">
+              <span className="font-semibold">Subject:</span> {result.subject}
+            </p>
+            <p className="mb-2">
+              <span className="font-semibold">Review:</span> {result.review}
+            </p>
+            <p>
+              <span className="font-semibold">Stars:</span> {result.stars}
+            </p>
+          </div>
+        ))}
     </div>
   );
 };
 
 const AdvancedSearchForm = ({ onSearch }) => {
   const [criteria, setCriteria] = useState({
-    subject: '',
-    teachingStyle: '',
-    difficulty: '',
-    gradingFairness: '',
-    availability: ''
+    subject: "",
+    teachingStyle: "",
+    difficulty: "",
+    gradingFairness: "",
+    availability: "",
   });
 
   const handleChange = (e) => {
@@ -90,7 +99,10 @@ const AdvancedSearchForm = ({ onSearch }) => {
           <option value="limited">Limited</option>
         </select>
       </div>
-      <button type="submit" className="mt-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+      <button
+        type="submit"
+        className="mt-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+      >
         Search Professors
       </button>
     </form>
@@ -98,12 +110,12 @@ const AdvancedSearchForm = ({ onSearch }) => {
 };
 
 const LinkSubmissionForm = ({ onSubmit }) => {
-  const [link, setLink] = useState('');
+  const [link, setLink] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(link);
-    setLink('');
+    setLink("");
   };
 
   return (
@@ -117,7 +129,10 @@ const LinkSubmissionForm = ({ onSubmit }) => {
           className="flex-grow p-2 border rounded-l"
           required
         />
-        <button type="submit" className="p-2 bg-blue-500 text-white rounded-r hover:bg-blue-600">
+        <button
+          type="submit"
+          className="p-2 bg-blue-500 text-white rounded-r hover:bg-blue-600"
+        >
           Submit Link
         </button>
       </div>
@@ -128,33 +143,36 @@ const LinkSubmissionForm = ({ onSubmit }) => {
 export default function Home() {
   const [messages, setMessages] = useState([
     {
-      role: 'assistant',
+      role: "assistant",
       content: `Hi! I'm the Mentor Metrics AI Assistant. How can I help you today? You can ask me about specific professors or use the advanced search form to find personalized recommendations.`,
     },
-  ])
-  const [message, setMessage] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
+  ]);
+  const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const sendMessage = async (customMessage = null) => {
     const messageToSend = customMessage || message;
-    if (!messageToSend.trim() || isLoading) return
-    
-    setIsLoading(true)
-    setMessage('')
+    if (!messageToSend.trim() || isLoading) return;
+
+    setIsLoading(true);
+    setMessage("");
     setMessages((prevMessages) => [
       ...prevMessages,
-      { role: 'user', content: messageToSend },
-      { role: 'assistant', content: '' },
-    ])
+      { role: "user", content: messageToSend },
+      { role: "assistant", content: "" },
+    ]);
 
     try {
-      const response = await fetch('/api/chat', {
-        method: 'POST',
+      const response = await fetch("/api/chat", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify([...messages, { role: 'user', content: messageToSend }]),
-      })
+        body: JSON.stringify([
+          ...messages,
+          { role: "user", content: messageToSend },
+        ]),
+      });
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -163,30 +181,33 @@ export default function Home() {
       const data = await response.json();
       setMessages((prevMessages) => {
         const updatedMessages = [...prevMessages];
-        updatedMessages[updatedMessages.length - 1] = { 
-          role: 'assistant', 
-          content: data 
+        updatedMessages[updatedMessages.length - 1] = {
+          role: "assistant",
+          content: data,
         };
         return updatedMessages;
       });
     } catch (error) {
-      console.error('Error sending message:', error)
+      console.error("Error sending message:", error);
       setMessages((prevMessages) => [
         ...prevMessages,
-        { role: 'assistant', content: 'Sorry, there was an error processing your request.' },
-      ])
+        {
+          role: "assistant",
+          content: "Sorry, there was an error processing your request.",
+        },
+      ]);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   const submitLink = async (link) => {
     setIsLoading(true);
     try {
-      const response = await fetch('/api/submit-link', {
-        method: 'POST',
+      const response = await fetch("/api/submit-link", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ url: link }),
       });
@@ -198,23 +219,46 @@ export default function Home() {
       const data = await response.json();
       setMessages((prevMessages) => [
         ...prevMessages,
-        { role: 'assistant', content: data.message },
+        { role: "assistant", content: data.message },
       ]);
     } catch (error) {
-      console.error('Error submitting link:', error);
+      console.error("Error submitting link:", error);
       setMessages((prevMessages) => [
         ...prevMessages,
-        { role: 'assistant', content: 'Sorry, there was an error processing the link.' },
+        {
+          role: "assistant",
+          content: "Sorry, there was an error processing the link.",
+        },
       ]);
     } finally {
       setIsLoading(false);
     }
   };
 
-    return (
+  const clearChat = () => {
+    setMessages([
+      {
+        role: "assistant",
+        content: `Chat cleared. How can I assist you today?`,
+      },
+    ]);
+  };
+
+  return (
     <div className="flex flex-col justify-center items-center min-h-screen bg-gray-100">
       <div className="w-full max-w-screen-xl bg-white rounded-lg shadow-md p-6">
-        <h1 className="text-2xl font-bold text-center mb-6 text-blue-800">Mentor Metrics AI Assistant</h1>
+                <div className="flex flex-col md:flex-row items-center justify-between">
+          <div className="mb-6">Logo Image</div>
+          <h1 className="text-2xl font-bold text-center mb-6 text-blue-800">
+            Mentor Metrics AI Assistant
+          </h1>
+          <button
+            onClick={clearChat}
+            className="mb-6 px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
+          >
+            Clear Chat
+          </button>
+        </div>
         <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
           <div className="flex flex-col space-y-4 w-full md:w-1/2 lg:w-1/3">
             <LinkSubmissionForm onSubmit={submitLink} />
@@ -225,17 +269,19 @@ export default function Home() {
               <div
                 key={index}
                 className={`flex ${
-                  msg.role === 'assistant' ? 'justify-start' : 'justify-end'
+                  msg.role === "assistant" ? "justify-start" : "justify-end"
                 }`}
               >
                 <div
                   className={`max-w-xs md:max-w-md lg:max-w-lg rounded-lg p-4 ${
-                    msg.role === 'assistant'
-                      ? 'bg-blue-100 text-blue-900'
-                      : 'bg-green-100 text-green-900'
+                    msg.role === "assistant"
+                      ? "bg-blue-100 text-blue-900"
+                      : "bg-green-100 text-green-900"
                   }`}
                 >
-                  {msg.role === 'assistant' ? formatAIResponse(msg.content) : msg.content}
+                  {msg.role === "assistant"
+                    ? formatAIResponse(msg.content)
+                    : msg.content}
                 </div>
               </div>
             ))}
@@ -246,7 +292,7 @@ export default function Home() {
             type="text"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
+            onKeyPress={(e) => e.key === "Enter" && sendMessage()}
             className="flex-grow px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Type your message..."
             disabled={isLoading}
@@ -254,11 +300,11 @@ export default function Home() {
           <button
             onClick={() => sendMessage()}
             className={`px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-              isLoading ? 'opacity-50 cursor-not-allowed' : ''
+              isLoading ? "opacity-50 cursor-not-allowed" : ""
             }`}
             disabled={isLoading}
           >
-            {isLoading ? 'Sending...' : 'Send'}
+            {isLoading ? "Sending..." : "Send"}
           </button>
         </div>
       </div>
