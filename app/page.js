@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -275,6 +275,7 @@ const ProfessorRatingForm = ({ onSubmit }) => {
   );
 };
 
+
 export default function Home() {
   const [messages, setMessages] = useState([
     {
@@ -294,7 +295,7 @@ export default function Home() {
     setMessages((prevMessages) => [
       ...prevMessages,
       { role: "user", content: messageToSend },
-      { role: "assistant", content: "" },
+      { role: "assistant", content: "thinking" },
     ]);
 
     try {
@@ -324,13 +325,14 @@ export default function Home() {
       });
     } catch (error) {
       console.error("Error sending message:", error);
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        {
+      setMessages((prevMessages) => {
+        const updatedMessages = [...prevMessages];
+        updatedMessages[updatedMessages.length - 1] = {
           role: "assistant",
           content: "Sorry, there was an error processing your request.",
-        },
-      ]);
+        };
+        return updatedMessages;
+      });
     } finally {
       setIsLoading(false);
     }
@@ -440,7 +442,7 @@ export default function Home() {
         </div>
 
         <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
-          <div className="flex flex-col space-y-4 w-full md:w-1/2 lg:w-2/3">
+          <div className="flex flex-col space-y-4 w-full md:w-1/2 lg:w-1/3">
             <LinkSubmissionForm onSubmit={submitLink} />
             <AdvancedSearchForm onSearch={sendMessage} />
             <ProfessorRatingForm onSubmit={submitRating} />
@@ -461,9 +463,18 @@ export default function Home() {
                         : "bg-orange-300 text-slate-700"
                     }`}
                   >
-                    {msg.role === "assistant"
-                      ? formatAIResponse(msg.content)
-                      : msg.content}
+                    {msg.role === "assistant" && msg.content === "thinking" ? (
+                      <div className="flex items-center">
+                        <span className="mr-2">AI is thinking</span>
+                        <span className="animate-pulse">.</span>
+                        <span className="animate-pulse delay-150">.</span>
+                        <span className="animate-pulse delay-300">.</span>
+                      </div>
+                    ) : msg.role === "assistant" ? (
+                      formatAIResponse(msg.content)
+                    ) : (
+                      msg.content
+                    )}
                   </div>
                 </div>
               ))}
