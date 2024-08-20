@@ -415,7 +415,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen bg-orange-bg bg-cover bg-no-repeat">
-      <div className="mainCard w-full max-w-7xl bg-white rounded-lg shadow-md p-6">
+      <div className="mainCard w-full max-w-7xl bg-white rounded-lg shadow-2xl p-6">
         <div className="flex flex-col md:flex-row items-center justify-between">
           <div className="mb-6">
             <Link href="/">
