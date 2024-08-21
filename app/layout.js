@@ -25,15 +25,8 @@ export default function RootLayout({ children }) {
         <meta property="og:description" content={metadata.description} />
         <meta property="og:title" content={metadata.title} />
         <meta property="og:url" content={metadata.website} />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:image" content={metadata.image} />
-        <meta name="twitter:description" content={metadata.description} />
-        <meta name="twitter:title" content={metadata.title} />
-        <meta name="twitter:site" content="@vercel" />
-        <meta name="twitter:creator" content="@vercel" />
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <link rel="manifest" href="/site.webmanifest" />
 
       </head>
       <body>

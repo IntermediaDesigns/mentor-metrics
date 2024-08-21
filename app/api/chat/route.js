@@ -9,70 +9,156 @@ You are an advanced rate my professor agent to help students find classes and pr
 3. Difficulty level
 4. Grading fairness
 5. Availability outside of class
-For every user question, analyze the top 5 professors that match the user's criteria. Explain why each professor is recommended and how they match the user's preferences. Include any additional information from Rate My Professor submissions if available.
+For every user question, analyze the top 5 professors that match the user's criteria. If a user asks for a specific professor by name, display only the specified professor. Explain why each professor is recommended and how they match the user's preferences. Include any additional information from Rate My Professor submissions if available.
 `;
 
 const isProfessorRelatedQuery = (query) => {
   const professorKeywords = [
     // Core terms
-    'professor', 'prof', 'teacher', 'instructor', 'faculty', 'lecturer',
-    'class', 'course', 'subject', 'department', 'major', 'minor',
-    'teach', 'lecture', 'grade', 'grading', 'rating', 'review',
-    'difficulty', 'style', 'availability', 'office hours',
+    "professor",
+    "prof",
+    "teacher",
+    "instructor",
+    "faculty",
+    "lecturer",
+    "class",
+    "course",
+    "subject",
+    "department",
+    "major",
+    "minor",
+    "teach",
+    "lecture",
+    "grade",
+    "grading",
+    "rating",
+    "review",
+    "difficulty",
+    "style",
+    "availability",
+    "office hours",
 
     // Academic terms
-    'syllabus', 'curriculum', 'semester', 'quarter', 'term',
-    'exam', 'test', 'quiz', 'assignment', 'homework', 'project',
-    'midterm', 'final', 'paper', 'essay', 'thesis',
+    "syllabus",
+    "curriculum",
+    "semester",
+    "quarter",
+    "term",
+    "exam",
+    "test",
+    "quiz",
+    "assignment",
+    "homework",
+    "project",
+    "midterm",
+    "final",
+    "paper",
+    "essay",
+    "thesis",
 
     // Academic levels
-    'undergraduate', 'graduate', 'phd', 'doctoral', 'masters',
-    'freshman', 'sophomore', 'junior', 'senior',
+    "undergraduate",
+    "graduate",
+    "phd",
+    "doctoral",
+    "masters",
+    "freshman",
+    "sophomore",
+    "junior",
+    "senior",
 
     // Course types
-    'seminar', 'lecture', 'lab', 'workshop', 'tutorial',
+    "seminar",
+    "lecture",
+    "lab",
+    "workshop",
+    "tutorial",
 
     // Teaching styles
-    'hands-on', 'theoretical', 'practical', 'discussion-based',
-    'interactive', 'online', 'in-person', 'hybrid',
+    "hands-on",
+    "theoretical",
+    "practical",
+    "discussion-based",
+    "interactive",
+    "online",
+    "in-person",
+    "hybrid",
 
     // Evaluation terms
-    'workload', 'tough', 'easy', 'fair', 'strict', 'lenient',
-    'helpful', 'knowledgeable', 'engaging', 'boring',
+    "workload",
+    "tough",
+    "easy",
+    "fair",
+    "strict",
+    "lenient",
+    "helpful",
+    "knowledgeable",
+    "engaging",
+    "boring",
 
     // Academic fields (add more as needed)
-    'math', 'science', 'engineering', 'humanities', 'arts',
-    'social sciences', 'business', 'economics', 'psychology',
-    'computer science', 'biology', 'chemistry', 'physics',
+    "math",
+    "science",
+    "engineering",
+    "humanities",
+    "arts",
+    "social sciences",
+    "business",
+    "economics",
+    "psychology",
+    "computer science",
+    "biology",
+    "chemistry",
+    "physics",
 
     // Miscellaneous
-    'gpa', 'credits', 'prerequisites', 'textbook', 'materials',
-    'attendance', 'participation', 'curve', 'extra credit',
-    'research', 'internship', 'ta', 'teaching assistant'
+    "gpa",
+    "credits",
+    "prerequisites",
+    "textbook",
+    "materials",
+    "attendance",
+    "participation",
+    "curve",
+    "extra credit",
+    "research",
+    "internship",
+    "ta",
+    "teaching assistant",
   ];
 
   // Convert query to lowercase for case-insensitive matching
   const lowerQuery = query.toLowerCase();
 
   // Check for exact matches first
-  if (professorKeywords.some(keyword => lowerQuery.includes(keyword))) {
+  if (professorKeywords.some((keyword) => lowerQuery.includes(keyword))) {
     return true;
   }
 
   // Check for partial matches (e.g., "prof" in "professor")
-  if (professorKeywords.some(keyword => 
-    lowerQuery.split(' ').some(word => word.startsWith(keyword) || keyword.startsWith(word))
-  )) {
+  if (
+    professorKeywords.some((keyword) =>
+      lowerQuery
+        .split(" ")
+        .some((word) => word.startsWith(keyword) || keyword.startsWith(word))
+    )
+  ) {
     return true;
   }
 
   // Check for common academic phrases
   const academicPhrases = [
-    'how is', 'who is the best', 'recommend a', 'looking for',
-    'need help with', 'advice on', 'opinions about', 'experiences with'
+    "how is",
+    "who is the best",
+    "recommend a",
+    "looking for",
+    "need help with",
+    "advice on",
+    "opinions about",
+    "experiences with",
   ];
 
-  if (academicPhrases.some(phrase => lowerQuery.includes(phrase))) {
+  if (academicPhrases.some((phrase) => lowerQuery.includes(phrase))) {
     return true;
   }
 
@@ -87,7 +173,8 @@ export async function POST(req) {
 
   if (!isProfessorRelatedQuery(userQuery)) {
     return NextResponse.json({
-      message: "I'm sorry, but I can only assist with queries related to professors and their courses. Could you please ask a question about a professor, their teaching style, or a specific course?"
+      message:
+        "I'm sorry, but I can only assist with queries related to professors and their courses. Could you please ask a question about a professor, their teaching style, or a specific course?",
     });
   }
 
@@ -95,7 +182,6 @@ export async function POST(req) {
     apiKey: process.env.PINECONE_API_KEY,
   });
   const index = pc.index("rag").namespace("ns1");
-
 
   const embedding = await openai.embeddings.create({
     model: "text-embedding-3-small",
@@ -110,11 +196,11 @@ export async function POST(req) {
   });
 
   // Structure the results
-  const structuredResults = results.matches.map(match => ({
+  const structuredResults = results.matches.map((match) => ({
     professor: match.metadata.professor || match.id,
     review: match.metadata.review || match.metadata.summary,
     subject: match.metadata.subject || match.metadata.department,
-    stars: match.metadata.stars || match.metadata.overallRating
+    stars: match.metadata.stars || match.metadata.overallRating,
   }));
 
   const lastMessage = data[data.length - 1];
@@ -134,11 +220,11 @@ export async function POST(req) {
   // Structure the final response
   const structuredResponse = {
     message: completion.choices[0].message.content,
-    results: structuredResults
+    results: structuredResults,
   };
 
   // Return the structured response
   return new NextResponse(JSON.stringify(structuredResponse), {
-    headers: { 'Content-Type': 'application/json' }
+    headers: { "Content-Type": "application/json" },
   });
 }

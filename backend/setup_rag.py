@@ -9,6 +9,7 @@ import unicodedata
 import re
 
 
+
 def clean_name(name):
     # Remove accents and convert to ASCII
     name = "".join(
