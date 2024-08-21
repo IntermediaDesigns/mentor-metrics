@@ -3,13 +3,13 @@ import { Pinecone } from "@pinecone-database/pinecone";
 import OpenAI from "openai";
 
 const systemPrompt = `
-You are an advanced rate my professor agent to help students find classes and professors. Analyze the user's query to understand their preferences and requirements. Provide personalized professor recommendations based on the following criteria:
+You are an advanced rate my professor agent to help students find classes and professors. Analyze the user's query to understand their preferences and requirements. If the user asks about a specific professor by name, provide information only about that professor. For general queries, provide personalized professor recommendations based on the following criteria:
 1. Subject area
 2. Teaching style (e.g., hands-on, lecture-based, discussion-oriented)
 3. Difficulty level
 4. Grading fairness
 5. Availability outside of class
-For every user question, analyze the top 5 professors that match the user's criteria. Explain why each professor is recommended and how they match the user's preferences. Include any additional information from Rate My Professor submissions if available.
+Explain why each professor is recommended and how they match the user's preferences. Include any additional information from Rate My Professor submissions if available.
 `;
 
 const isProfessorRelatedQuery = (query) => {
@@ -170,9 +170,9 @@ const isProfessorRelatedQuery = (query) => {
 };
 
 const openai = new OpenAI();
+
 export async function POST(req) {
   const data = await req.json();
-
   const userQuery = data[data.length - 1].content;
 
   if (!isProfessorRelatedQuery(userQuery)) {
@@ -193,11 +193,40 @@ export async function POST(req) {
     encoding_format: "float",
   });
 
-  const results = await index.query({
-    topK: 5,
-    includeMetadata: true,
-    vector: embedding.data[0].embedding,
-  });
+  // Check if the query is for a specific professor
+  const professorNameMatch = userQuery.match(
+    /(?:about|for|who is|tell me about)\s+([^?.,]+)/i
+  );
+  const specificProfessorQuery = professorNameMatch
+    ? professorNameMatch[1].trim().toLowerCase()
+    : null;
+
+  let results;
+  if (specificProfessorQuery) {
+    // Query for the specific professor using a case-insensitive approach
+    results = await index.query({
+      topK: 10, // Increase this to improve chances of finding the right professor
+      includeMetadata: true,
+      vector: embedding.data[0].embedding,
+    });
+
+    // Filter results client-side for case-insensitive match
+    results.matches = results.matches.filter(
+      (match) =>
+        (match.metadata.professor || match.id).toLowerCase() ===
+        specificProfessorQuery
+    );
+
+    // Limit to top 1 result
+    results.matches = results.matches.slice(0, 1);
+  } else {
+    // General query
+    results = await index.query({
+      topK: 5,
+      includeMetadata: true,
+      vector: embedding.data[0].embedding,
+    });
+  }
 
   // Structure the results
   const structuredResults = results.matches.map((match) => ({
@@ -207,18 +236,16 @@ export async function POST(req) {
     stars: match.metadata.stars || match.metadata.overallRating,
   }));
 
-  const lastMessage = data[data.length - 1];
   const lastMessageContent = userQuery + JSON.stringify(structuredResults);
-  const lastDataWithoutLastMessage = data.slice(0, data.length - 1);
 
   const completion = await openai.chat.completions.create({
     messages: [
       { role: "system", content: systemPrompt },
-      ...lastDataWithoutLastMessage,
       { role: "user", content: lastMessageContent },
     ],
     model: "gpt-3.5-turbo",
-    stream: false,
+    temperature: 0.7,
+    max_tokens: 1000,
   });
 
   // Structure the final response
