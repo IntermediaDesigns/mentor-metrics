@@ -242,7 +242,10 @@ const isProfessorRelatedQuery = (query) => {
   }
 
   // Additional checks, e.g., analyzing the structure of the query
-  if (lowerQuery.includes("professor") && (lowerQuery.includes("good") || lowerQuery.includes("best"))) {
+  if (
+    lowerQuery.includes("professor") &&
+    (lowerQuery.includes("good") || lowerQuery.includes("best"))
+  ) {
     return true;
   }
 
@@ -283,23 +286,35 @@ export async function POST(req) {
 
   // Filter for specific professor if available
   const subjectMatch = userQuery.match(/for\s+(\w+)/i);
-  const teachingStyleMatch = userQuery.match(/(hands-on|lecture-based|discussion-oriented)/i);
+  const teachingStyleMatch = userQuery.match(
+    /(hands-on|lecture-based|discussion-oriented)/i
+  );
   const difficultyMatch = userQuery.match(/(easy|moderate|challenging)/i);
   const gradingMatch = userQuery.match(/(very fair|fair|strict)/i);
-  const availabilityMatch = userQuery.match(/(very available|somewhat available|limited)/i);
+  const availabilityMatch = userQuery.match(
+    /(very available|somewhat available|limited)/i
+  );
 
   let filter = {};
   if (subjectMatch) filter["metadata.subject"] = { $eq: subjectMatch[1] };
-  if (teachingStyleMatch) filter["metadata.teachingStyle"] = { $eq: teachingStyleMatch[1].toLowerCase() };
-  if (difficultyMatch) filter["metadata.difficulty"] = { $eq: difficultyMatch[1].toLowerCase() };
-  if (gradingMatch) filter["metadata.gradingFairness"] = { $eq: gradingMatch[1].toLowerCase() };
-  if (availabilityMatch) filter["metadata.availability"] = { $eq: availabilityMatch[1].toLowerCase() };
+  if (teachingStyleMatch)
+    filter["metadata.teachingStyle"] = {
+      $eq: teachingStyleMatch[1].toLowerCase(),
+    };
+  if (difficultyMatch)
+    filter["metadata.difficulty"] = { $eq: difficultyMatch[1].toLowerCase() };
+  if (gradingMatch)
+    filter["metadata.gradingFairness"] = { $eq: gradingMatch[1].toLowerCase() };
+  if (availabilityMatch)
+    filter["metadata.availability"] = {
+      $eq: availabilityMatch[1].toLowerCase(),
+    };
 
   let results;
   if (specificProfessorQuery) {
     // Query for the specific professor using a case-insensitive approach
     results = await index.query({
-      topK: 10, // Increase this to improve chances of finding the right professor
+      topK: 20, // Increase this to improve chances of finding the right professor
       includeMetadata: true,
       vector: embedding.data[0].embedding,
     });
@@ -323,10 +338,8 @@ export async function POST(req) {
     });
   }
 
-  
-
   // Structure the results
-  const structuredResults = results.matches.map(match => ({
+  const structuredResults = results.matches.map((match) => ({
     professor: match.metadata.professor,
     review: match.metadata.review,
     subject: match.metadata.subject,
@@ -334,7 +347,7 @@ export async function POST(req) {
     teachingStyle: match.metadata.teachingStyle,
     difficulty: match.metadata.difficulty,
     gradingFairness: match.metadata.gradingFairness,
-    availability: match.metadata.availability
+    availability: match.metadata.availability,
   }));
 
   const lastMessageContent = userQuery + JSON.stringify(structuredResults);
