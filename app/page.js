@@ -67,9 +67,9 @@ const AdvancedSearchForm = ({ onSearch }) => {
           className="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-amber-500"
         >
           <option value="">Teaching Style</option>
-          <option value="hands-on">Hands-on</option>
-          <option value="lecture-based">Lecture-based</option>
-          <option value="discussion-oriented">Discussion-oriented</option>
+          <option value="hands-on">Hands-On</option>
+          <option value="lecture-based">Lecture-Based</option>
+          <option value="discussion-oriented">Discussion-Oriented</option>
         </select>
         <select
           name="difficulty"

@@ -9,7 +9,6 @@ import unicodedata
 import re
 
 
-
 def clean_name(name):
     # Remove accents and convert to ASCII
     name = "".join(
@@ -49,6 +48,10 @@ for review in data["reviews"]:
                 "review": review["review"],
                 "subject": review["subject"],
                 "stars": review["stars"],
+                "teachingStyle": review["teachingStyle"],
+                "difficulty": review["difficulty"],
+                "gradingFairness": review["gradingFairness"],
+                "availability": review["availability"],
             },
         }
     )

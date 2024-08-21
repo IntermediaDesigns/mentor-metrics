@@ -83,6 +83,15 @@ const isProfessorRelatedQuery = (query) => {
     "online",
     "in-person",
     "hybrid",
+    "blended",
+    "flipped",
+    "lecture-based",
+    "project-based",
+    "problem-based",
+    "case-based",
+    "team-based",
+    "discussion-oriented",
+    "group work",
 
     // Evaluation terms
     "workload",
@@ -110,6 +119,30 @@ const isProfessorRelatedQuery = (query) => {
     "biology",
     "chemistry",
     "physics",
+    "history",
+    "literature",
+    "philosophy",
+    "sociology",
+    "political science",
+    "communication",
+    "education",
+    "nursing",
+    "medicine",
+    "law",
+    "design",
+    "architecture",
+    "music",
+    "theater",
+    "film",
+    "media",
+    "journalism",
+    "public health",
+    "urban planning",
+    "environmental studies",
+    "geography",
+    "anthropology",
+    "linguistics",
+    "religious studies",
 
     // Miscellaneous
     "gpa",
@@ -125,6 +158,37 @@ const isProfessorRelatedQuery = (query) => {
     "internship",
     "ta",
     "teaching assistant",
+    "office hours",
+    "advice",
+    "opinion",
+    "experience",
+    "thoughts",
+    "recommendation",
+    "review professor",
+    "find professor",
+    "search professor",
+    "information about professor",
+    "instructor details",
+    "faculty ratings",
+    "class recommendations",
+    "course suggestions",
+    "course feedback",
+    "class reviews",
+    "professor ratings",
+    "professor reviews",
+    "professor recommendations",
+    "professor feedback",
+    "professor suggestions",
+    "professor information",
+    "professor details",
+    "professor opinions",
+    "professor experiences",
+    "professor thoughts",
+    "professor advice",
+    "professor help",
+    "professor guidance",
+    "professor insights",
+    "professor tips",
   ];
 
   // Convert query to lowercase for case-insensitive matching
@@ -160,9 +224,25 @@ const isProfessorRelatedQuery = (query) => {
     "anyone taken",
     "has anyone",
     "tell me about",
+    "what's the rating for",
+    "best professor for",
+    "who teaches",
+    "who is teaching",
+    "who has taken",
+    "who has experience with",
+    "who has thoughts on",
+    "who has opinions on",
+    "who can recommend",
+    "who can help with",
+    "who can provide information on",
   ];
 
   if (academicPhrases.some((phrase) => lowerQuery.includes(phrase))) {
+    return true;
+  }
+
+  // Additional checks, e.g., analyzing the structure of the query
+  if (lowerQuery.includes("professor") && (lowerQuery.includes("good") || lowerQuery.includes("best"))) {
     return true;
   }
 
@@ -201,6 +281,20 @@ export async function POST(req) {
     ? professorNameMatch[1].trim().toLowerCase()
     : null;
 
+  // Filter for specific professor if available
+  const subjectMatch = userQuery.match(/for\s+(\w+)/i);
+  const teachingStyleMatch = userQuery.match(/(hands-on|lecture-based|discussion-oriented)/i);
+  const difficultyMatch = userQuery.match(/(easy|moderate|challenging)/i);
+  const gradingMatch = userQuery.match(/(very fair|fair|strict)/i);
+  const availabilityMatch = userQuery.match(/(very available|somewhat available|limited)/i);
+
+  let filter = {};
+  if (subjectMatch) filter["metadata.subject"] = { $eq: subjectMatch[1] };
+  if (teachingStyleMatch) filter["metadata.teachingStyle"] = { $eq: teachingStyleMatch[1].toLowerCase() };
+  if (difficultyMatch) filter["metadata.difficulty"] = { $eq: difficultyMatch[1].toLowerCase() };
+  if (gradingMatch) filter["metadata.gradingFairness"] = { $eq: gradingMatch[1].toLowerCase() };
+  if (availabilityMatch) filter["metadata.availability"] = { $eq: availabilityMatch[1].toLowerCase() };
+
   let results;
   if (specificProfessorQuery) {
     // Query for the specific professor using a case-insensitive approach
@@ -223,17 +317,24 @@ export async function POST(req) {
     // General query
     results = await index.query({
       topK: 5,
+      filter: filter,
       includeMetadata: true,
       vector: embedding.data[0].embedding,
     });
   }
 
+  
+
   // Structure the results
-  const structuredResults = results.matches.map((match) => ({
-    professor: match.metadata.professor || match.id,
-    review: match.metadata.review || match.metadata.summary,
-    subject: match.metadata.subject || match.metadata.department,
-    stars: match.metadata.stars || match.metadata.overallRating,
+  const structuredResults = results.matches.map(match => ({
+    professor: match.metadata.professor,
+    review: match.metadata.review,
+    subject: match.metadata.subject,
+    stars: match.metadata.stars,
+    teachingStyle: match.metadata.teachingStyle,
+    difficulty: match.metadata.difficulty,
+    gradingFairness: match.metadata.gradingFairness,
+    availability: match.metadata.availability
   }));
 
   const lastMessageContent = userQuery + JSON.stringify(structuredResults);
