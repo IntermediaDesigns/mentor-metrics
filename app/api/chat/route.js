@@ -9,7 +9,7 @@ You are an advanced rate my professor agent to help students find classes and pr
 3. Difficulty level
 4. Grading fairness
 5. Availability outside of class
-For every user question, analyze the top 5 professors that match the user's criteria. If a user asks for a specific professor by name, display only the specified professor. Explain why each professor is recommended and how they match the user's preferences. Include any additional information from Rate My Professor submissions if available.
+For every user question, analyze the top 5 professors that match the user's criteria. Explain why each professor is recommended and how they match the user's preferences. Include any additional information from Rate My Professor submissions if available.
 `;
 
 const isProfessorRelatedQuery = (query) => {
@@ -156,6 +156,10 @@ const isProfessorRelatedQuery = (query) => {
     "advice on",
     "opinions about",
     "experiences with",
+    "thoughts on",
+    "anyone taken",
+    "has anyone",
+    "tell me about",
   ];
 
   if (academicPhrases.some((phrase) => lowerQuery.includes(phrase))) {
