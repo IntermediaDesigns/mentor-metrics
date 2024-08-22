@@ -3,13 +3,13 @@ import { Pinecone } from "@pinecone-database/pinecone";
 import OpenAI from "openai";
 
 const systemPrompt = `
-You are an advanced rate my professor agent to help students find classes and professors. Analyze the user's query to understand their preferences and requirements. If the user asks about a specific professor by name, provide information only about that professor. For general queries, provide personalized professor recommendations based on the following criteria:
+You are an advanced rate my professor agent to help students find classes and professors. Analyze the user's query to understand their preferences and requirements. Provide personalized professor recommendations based on the following criteria:
 1. Subject area
 2. Teaching style (e.g., hands-on, lecture-based, discussion-oriented)
 3. Difficulty level
 4. Grading fairness
 5. Availability outside of class
-Explain why each professor is recommended and how they match the user's preferences. Include any additional information from Rate My Professor submissions if available. Rank the professors based on how well they match the user's criteria, explaining why each professor is recommended.
+For every user question, analyze the top 5 professors that match the user's criteria. Explain why each professor is recommended and how they match the user's preferences. Include any additional information from Rate My Professor submissions if available.
 `;
 
 const isProfessorRelatedQuery = (query) => {
@@ -83,15 +83,6 @@ const isProfessorRelatedQuery = (query) => {
     "online",
     "in-person",
     "hybrid",
-    "blended",
-    "flipped",
-    "lecture-based",
-    "project-based",
-    "problem-based",
-    "case-based",
-    "team-based",
-    "discussion-oriented",
-    "group work",
 
     // Evaluation terms
     "workload",
@@ -119,30 +110,6 @@ const isProfessorRelatedQuery = (query) => {
     "biology",
     "chemistry",
     "physics",
-    "history",
-    "literature",
-    "philosophy",
-    "sociology",
-    "political science",
-    "communication",
-    "education",
-    "nursing",
-    "medicine",
-    "law",
-    "design",
-    "architecture",
-    "music",
-    "theater",
-    "film",
-    "media",
-    "journalism",
-    "public health",
-    "urban planning",
-    "environmental studies",
-    "geography",
-    "anthropology",
-    "linguistics",
-    "religious studies",
 
     // Miscellaneous
     "gpa",
@@ -158,37 +125,6 @@ const isProfessorRelatedQuery = (query) => {
     "internship",
     "ta",
     "teaching assistant",
-    "office hours",
-    "advice",
-    "opinion",
-    "experience",
-    "thoughts",
-    "recommendation",
-    "review professor",
-    "find professor",
-    "search professor",
-    "information about professor",
-    "instructor details",
-    "faculty ratings",
-    "class recommendations",
-    "course suggestions",
-    "course feedback",
-    "class reviews",
-    "professor ratings",
-    "professor reviews",
-    "professor recommendations",
-    "professor feedback",
-    "professor suggestions",
-    "professor information",
-    "professor details",
-    "professor opinions",
-    "professor experiences",
-    "professor thoughts",
-    "professor advice",
-    "professor help",
-    "professor guidance",
-    "professor insights",
-    "professor tips",
   ];
 
   // Convert query to lowercase for case-insensitive matching
@@ -224,28 +160,9 @@ const isProfessorRelatedQuery = (query) => {
     "anyone taken",
     "has anyone",
     "tell me about",
-    "what's the rating for",
-    "best professor for",
-    "who teaches",
-    "who is teaching",
-    "who has taken",
-    "who has experience with",
-    "who has thoughts on",
-    "who has opinions on",
-    "who can recommend",
-    "who can help with",
-    "who can provide information on",
   ];
 
   if (academicPhrases.some((phrase) => lowerQuery.includes(phrase))) {
-    return true;
-  }
-
-  // Additional checks, e.g., analyzing the structure of the query
-  if (
-    lowerQuery.includes("professor") &&
-    (lowerQuery.includes("good") || lowerQuery.includes("best"))
-  ) {
     return true;
   }
 
@@ -253,9 +170,9 @@ const isProfessorRelatedQuery = (query) => {
 };
 
 const openai = new OpenAI();
-
 export async function POST(req) {
   const data = await req.json();
+
   const userQuery = data[data.length - 1].content;
 
   if (!isProfessorRelatedQuery(userQuery)) {
@@ -276,63 +193,32 @@ export async function POST(req) {
     encoding_format: "float",
   });
 
-  // Check if the query is for a specific professor
-  const professorNameMatch = userQuery.match(
-    /(?:about|for|who is|tell me about)\s+([^?.,]+)/i
-  );
-  const specificProfessorQuery = professorNameMatch
-    ? professorNameMatch[1].trim().toLowerCase()
-    : null;
-
-  let results;
-  if (specificProfessorQuery) {
-    // Query for the specific professor using a case-insensitive approach
-    results = await index.query({
-      topK: 20, // Increase this to improve chances of finding the right professor
-      includeMetadata: true,
-      vector: embedding.data[0].embedding,
-    });
-
-    // Filter results client-side for case-insensitive match
-    results.matches = results.matches.filter(
-      (match) =>
-        (match.metadata.professor || match.id).toLowerCase() ===
-        specificProfessorQuery
-    );
-
-    // Limit to top 1 result
-    results.matches = results.matches.slice(0, 1);
-  } else {
-    // General query
-    results = await index.query({
-      topK: 5,
-      includeMetadata: true,
-      vector: embedding.data[0].embedding,
-    });
-  }
+  const results = await index.query({
+    topK: 5,
+    includeMetadata: true,
+    vector: embedding.data[0].embedding,
+  });
 
   // Structure the results
   const structuredResults = results.matches.map((match) => ({
-    professor: match.metadata.professor,
-    review: match.metadata.review,
-    subject: match.metadata.subject,
-    stars: match.metadata.stars,
-    teachingStyle: match.metadata.teachingStyle,
-    difficulty: match.metadata.difficulty,
-    gradingFairness: match.metadata.gradingFairness,
-    availability: match.metadata.availability,
+    professor: match.metadata.professor || match.id,
+    review: match.metadata.review || match.metadata.summary,
+    subject: match.metadata.subject || match.metadata.department,
+    stars: match.metadata.stars || match.metadata.overallRating,
   }));
 
+  const lastMessage = data[data.length - 1];
   const lastMessageContent = userQuery + JSON.stringify(structuredResults);
+  const lastDataWithoutLastMessage = data.slice(0, data.length - 1);
 
   const completion = await openai.chat.completions.create({
     messages: [
       { role: "system", content: systemPrompt },
+      ...lastDataWithoutLastMessage,
       { role: "user", content: lastMessageContent },
     ],
     model: "gpt-3.5-turbo",
-    temperature: 0.7,
-    max_tokens: 1000,
+    stream: false,
   });
 
   // Structure the final response
