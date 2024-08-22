@@ -9,7 +9,7 @@ You are an advanced rate my professor agent to help students find classes and pr
 3. Difficulty level
 4. Grading fairness
 5. Availability outside of class
-Explain why each professor is recommended and how they match the user's preferences. Include any additional information from Rate My Professor submissions if available.
+Explain why each professor is recommended and how they match the user's preferences. Include any additional information from Rate My Professor submissions if available. Rank the professors based on how well they match the user's criteria, explaining why each professor is recommended.
 `;
 
 const isProfessorRelatedQuery = (query) => {
@@ -284,32 +284,6 @@ export async function POST(req) {
     ? professorNameMatch[1].trim().toLowerCase()
     : null;
 
-  // Filter for specific professor if available
-  const subjectMatch = userQuery.match(/for\s+(\w+)/i);
-  const teachingStyleMatch = userQuery.match(
-    /(hands-on|lecture-based|discussion-oriented)/i
-  );
-  const difficultyMatch = userQuery.match(/(easy|moderate|challenging)/i);
-  const gradingMatch = userQuery.match(/(very fair|fair|strict)/i);
-  const availabilityMatch = userQuery.match(
-    /(very available|somewhat available|limited)/i
-  );
-
-  let filter = {};
-  if (subjectMatch) filter["metadata.subject"] = { $eq: subjectMatch[1] };
-  if (teachingStyleMatch)
-    filter["metadata.teachingStyle"] = {
-      $eq: teachingStyleMatch[1].toLowerCase(),
-    };
-  if (difficultyMatch)
-    filter["metadata.difficulty"] = { $eq: difficultyMatch[1].toLowerCase() };
-  if (gradingMatch)
-    filter["metadata.gradingFairness"] = { $eq: gradingMatch[1].toLowerCase() };
-  if (availabilityMatch)
-    filter["metadata.availability"] = {
-      $eq: availabilityMatch[1].toLowerCase(),
-    };
-
   let results;
   if (specificProfessorQuery) {
     // Query for the specific professor using a case-insensitive approach
@@ -332,7 +306,6 @@ export async function POST(req) {
     // General query
     results = await index.query({
       topK: 5,
-      filter: filter,
       includeMetadata: true,
       vector: embedding.data[0].embedding,
     });
