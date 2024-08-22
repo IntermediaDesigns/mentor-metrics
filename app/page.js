@@ -48,6 +48,13 @@ const AdvancedSearchForm = ({ onSearch }) => {
     e.preventDefault();
     const query = `Find professors for ${criteria.subject} with ${criteria.teachingStyle} teaching style, ${criteria.difficulty} difficulty, ${criteria.gradingFairness} grading, and ${criteria.availability} availability outside class.`;
     onSearch(query);
+    setCriteria({
+      subject: "",
+      teachingStyle: "",
+      difficulty: "",
+      gradingFairness: "",
+      availability: "",
+    });
   };
 
   return (
