@@ -9,7 +9,7 @@ You are an advanced rate my professor agent to help students find classes and pr
 3. Difficulty level
 4. Grading fairness
 5. Availability outside of class
-For every user question, analyze the top 5 professors that match the user's criteria. Explain why each professor is recommended and how they match the user's preferences. Include any additional information from Rate My Professor submissions if available.
+For every user question, analyze the top 5 professors that match the user's criteria. Explain why each professor is recommended and how they match the user's preferences. Include any additional information from Rate My Professor submissions if available. Provide a summary of the top recommendations and ask the user if they need more information or have any other questions. Respond in a friendly and helpful manner. Start by analyzing the user's query and identifying the relevant criteria. Respond with personalized professor recommendations based on the user's preferences.
 `;
 
 const isProfessorRelatedQuery = (query) => {
